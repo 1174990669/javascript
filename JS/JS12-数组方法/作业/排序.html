@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <title>1.排序</title>
+        <style type="text/css">
+                body { margin: 0; padding: 0; font-family:微软雅黑; background-color: #f0f0f0;}
+                ul, button, p { margin: 0; padding: 0; }
+                ul li { list-style: none; }
+                #wrap { width: 1600px; height: 1000px; margin: 0px auto; overflow: hidden; position: relative; }
+                #wrap button { width: 200px; height: 50px; position: absolute; top: 10%; margin-left: -120px; font-size: 20px; font-weight: bold; color: #fff; background-color: #209cb0; border: none; cursor: pointer; }
+                .btn1 { left: 40%; }
+                .btn2 { left: 60%; }
+                #content { width: 1480px; height: 650px; position: absolute; left: 50%; top: 40%; margin-left: -750px; margin-top: -210px; overflow: hidden; padding: 10px; }
+                #content ul { width: 1480px; height: 640px; }
+                #content li { float: left; width: 350px; height: 300px; border: 10px solid #fff; cursor: pointer; opacity: 0.5;}
+                #content p { width: 350px; height: 70px; text-align: center; line-height: 70px; font-size: 20px; color: #037fae; font-weight: bold;}
+        </style>
+        <script type="text/javascript">
+                window.onload = function(){
+                        var oWrap = document.getElementById('wrap');
+                         var aButton = oWrap.getElementsByTagName('button');
+                         var oContent = document.getElementById('content');
+                         var oUl = oContent.getElementsByTagName('ul')[0];
+                         var aLi = oUl.getElementsByTagName('li');
+                         var json = {
+                                 'src': ['img/排序/1.png','img/排序/2.png','img/排序/3.png','img/排序/4.png','img/排序/5.png','img/排序/6.png',
+                                                 'img/排序/7.png','img/排序/8.png'],
+                                 'text': ['1-温馨办公','2-游戏桌面','3-汽车摇滚','4-狭路相逢','5-棒球小子','6-球鞋运动','7-游戏官网',
+                                                  '8-指尖社区']
+                         };
+                         var arr = [0,1,2,3,4,5,6,7];
+                         var onoff = true;
+
+                         //初始化页面
+                         fnInit(arr);
+                         function fnInit(arr){
+                                 for (var i = 0; i < aLi.length; i++) {
+                                         var img = aLi[i].getElementsByTagName('img')[0];
+                                         var p = aLi[i].getElementsByTagName('p')[0];
+                                         img.src = json.src[arr[i]];
+                                         p.innerHTML = json.text[arr[i]];
+                                         aLi[i].onmouseover = function(){
+                                                 var a = this.getElementsByTagName('p')[0];
+                                                 for (var i = 0; i < aLi.length; i++) {
+                                                         aLi[i].style.opacity = 0.6;
+                                                         aLi[i].getElementsByTagName('p')[0].style.color = '#037fae';
+                                                 }
+                                                 this.style.opacity = 1;
+                                                 a.style.color ='#ff8d00';
+                                         }
+                                 }
+                         }
+
+                         //实现页面 从大到小 - 从小到大 使用sort方法排序
+                         aButton[0].onclick = function(){
+                                 if (onoff) {
+                                          this.innerHTML = '从大到小';
+                                          arr.sort(function(a, b){
+                                                 return parseInt(b) - parseInt(a);
+                                          });
+                                          fnInit(arr);
+
+                                 }else {
+                                          this.innerHTML = '从小到大';
+                                          arr.sort(function(a, b){
+                                                 return parseInt(a) - parseInt(b);
+                                          });
+                                          fnInit(arr);
+                                 }
+                                 onoff =!onoff;
+                         };
+
+                         //实现页面 打乱顺序 使用随机数方法和sort排序方法
+                         aButton[1].onclick = function(){
+                                 //打乱json中的src和text的位置
+                                 //随机产生0-8之间的随机数
+                                 arr.sort(function(a, b){
+                                         return Math.round( Math.random()*7);
+                                 });
+                                 fnInit(arr);
+                         };
+                }
+        </script>
+</head>
+<body>
+        <div id="wrap">
+                <button class="btn1">从大到小</button>
+                <button class="btn2">打乱顺序</button>
+                <div id="content">
+                        <ul>
+                                <li><img src="" alt=""><p></p></li>
+                                <li><img src="" alt=""><p></p></li>
+                                <li><img src="" alt=""><p></p></li>
+                                <li><img src="" alt=""><p></p></li>
+                                <li><img src="" alt=""><p></p></li>
+                                <li><img src="" alt=""><p></p></li>
+                                <li><img src="" alt=""><p></p></li>
+                                <li><img src="" alt=""><p></p></li>
+                        </ul>
+                </div>
+        </div>        
+</body>
+</html>

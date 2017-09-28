@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>随机图片滚动</title>
+	<style>
+	* { margin: 0; padding: 0; }
+	ul li { list-style: none; }
+	#randomP { margin: 50px auto; width: 417px; height: 272px; border: 1px solid #777;}
+	#randomP li { width: 208px; height: 90px; float: left; overflow: hidden; margin: 0 1px 1px 0;}
+
+	#randomP li:nth-child(2n) { margin-right: 0px;}
+	#randomP li div { width: 208px; height: 270px;}
+	#randomP li img { float: left; }
+	</style>
+	<script>
+window.onload=function(){
+	var oUl = document.getElementById('randomP');
+	var aDiv = oUl.getElementsByTagName('div');
+	var arr = [0,-90,-180];	
+	setInterval(function(){
+		for(var i=0; i<aDiv.length; i++){
+			doMove(aDiv[i],'marginTop',2,arr[Math.round( Math.random()*(arr.length-1) )] );
+		}
+	},3000)
+
+
+function doMove ( obj, attr, dir, target, endFn ) {
+			dir = parseInt(getStyle( obj, attr )) < target ? dir : -dir;
+			clearInterval( obj.timer );
+			obj.timer = setInterval(function () {
+				var speed = parseInt(getStyle( obj, attr )) + dir;		
+				if ( speed > target && dir > 0 ||  speed < target && dir < 0  ) {
+					speed = target;
+				}
+				obj.style[attr] = speed + 'px';
+				if ( speed == target ) {
+					clearInterval( obj.timer );
+					endFn && endFn();
+				}
+			},10);
+		}
+function getStyle ( obj, attr ) { return obj.currentStyle?obj.currentStyle[attr] : getComputedStyle( obj )[attr]; }
+
+
+}
+	</script>
+</head>
+<body>
+		<ul id="randomP">
+			<li>
+				<div>
+					<img src="image/1.jpg">
+					<img src="image/2.jpg">
+					<img src="image/3.jpg">
+				</div>
+			</li>
+			<li>
+				<div>
+					<img src="image/4.jpg">
+					<img src="image/5.jpg">
+					<img src="image/6.jpg">
+				</div>
+			</li>
+			<li>
+				<div>
+					<img src="image/7.jpg">
+					<img src="image/8.jpg">
+					<img src="image/9.jpg">
+				</div>
+			</li>
+			<li>
+				<div>
+					<img src="image/10.jpg">
+					<img src="image/11.jpg">
+					<img src="image/12.jpg">
+				</div>
+			</li>
+			<li>
+				<div>
+					<img src="image/13.jpg">
+					<img src="image/14.jpg">
+					<img src="image/15.jpg">
+				</div>
+			</li>
+			<li>
+				<div>
+					<img src="image/16.jpg">
+					<img src="image/17.jpg">
+					<img src="image/18.jpg">
+				</div>
+			</li>
+		</ul>
+</body>
+</html>

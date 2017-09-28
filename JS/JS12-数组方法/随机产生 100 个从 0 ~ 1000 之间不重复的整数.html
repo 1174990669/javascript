@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>随机生成100个数字</title>
+        <script>
+                window.onload=function(){
+                    var oP = document.getElementsByTagName('p')[0];
+                    var arr=[];
+            
+                    for (var i = 0; i < 280; i++) {
+                        arr.push( Math.round(Math.random()*280));
+                    }
+                    chongfu( arr );
+                    
+                    arr.sort(function(a,b){
+                            return a-b;
+                    });
+                    
+                    arr.length=100;
+                    oP.innerHTML=arr;
+                    
+                    function  chongfu( obj){
+                        for (var i = 0; i < obj.length; i++) {
+                            for (var j = 0+1; j < obj.length; j++) {
+                                if( arr[i]==arr[j]) {
+                                    arr.splice(j,1);
+                                    j++;
+                                }
+                            }
+                        }
+                    };
+                };
+        </script>
+    </head>
+    <body>
+            <p style=" word-wrap:break-word;"></p>
+    </body>
+</html>

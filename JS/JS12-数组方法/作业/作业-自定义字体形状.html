@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>自定义字体形状</title>
+		<style>
+			body,
+			h2,
+			ul {
+				margin: 0;
+				padding: 0;
+			}
+			
+			li {
+				list-style: none;
+			}
+			
+			#bigbox {
+				width: 500px;
+				margin: 50px auto;
+			}
+			
+			#bigbox .content {
+				width: 503px;
+				height: 150px;
+				border: 1px solid #CCC;
+				margin-bottom: 10px;
+				overflow: auto;
+			}
+			
+			#bigbox .choose {
+				width: 153px;
+				position: relative;
+				margin-bottom: 10px;
+			}
+			
+			.choose h2 {
+				font-size: 14px;
+				font-weight: normal;
+				width: 120px;
+				height: 30px;
+				border: 1px solid #CCC;
+				line-height: 30px;
+				text-align: center;
+			}
+			
+			.choose h2 span,
+			.choose li span {
+				width: 26px;
+				height: 26px;
+				display: inline-block;
+				text-align: center;
+				line-height: 26px;
+			}
+			
+			.choose a {
+				position: absolute;
+				display: block;
+				width: 30px;
+				height: 30px;
+				background: #F1F1F1 url(../img/up.jpg) no-repeat 1px 5px;
+				border: 1px solid #ccc;
+				border-left: none;
+				top: 0;
+				right: 0;
+			}
+			
+			.choose .active {
+				position: absolute;
+				display: block;
+				width: 30px;
+				height: 30px;
+				background: #F1F1F1 url(../img/down.jpg) no-repeat 1px 5px;
+				border: 1px solid #ccc;
+				border-left: none;
+				top: 0;
+				right: 0;
+			}
+			
+			.choose ul {
+				width: 141px;
+				height: 120px;
+				position: absolute;
+				border: 1px solid #ccc;
+				border-top: none;
+				background: #fff;
+				padding: 5px;
+				overflow: auto;
+				display: none;
+			}
+			
+			.choose ul li {
+				font-size: 14px;
+				height: 35px;
+				margin-bottom: 6px;
+				line-height: 35px;
+				cursor: pointer;
+			}
+			
+			#bigbox .text {
+				width: 500px;
+				height: 150px;
+				resize: none;
+				outline: none;
+			}
+			
+			#bigbox .bubble1,
+			#bigbox .bubble2,
+			#bigbox .bubble3,
+			#bigbox .bubble4 {
+				width: 26px;
+				height: 26px;
+				display: inline-block;
+				border-radius: 50%;
+				text-align: center;
+				line-height: 26px;
+				margin-right: 1px;
+			}
+			
+			#bigbox .bubble1 {
+				background: lightskyblue;
+			}
+			
+			#bigbox .bubble2 {
+				background: #FF00FF;
+			}
+			
+			#bigbox .bubble3 {
+				background: yellow;
+			}
+			
+			#bigbox .bubble4 {
+				background: greenyellow;
+			}
+			
+			#bigbox .square1,
+			#bigbox .square2,
+			#bigbox .square3,
+			#bigbox .square4 {
+				width: 26px;
+				height: 26px;
+				display: inline-block;
+				margin-right: 1px;
+				background: brown;
+				text-align: center;
+				line-height: 26px;
+				color: #fff;
+			}
+		</style>
+		<script>
+			function getClass(obj, name) {
+				var arry = [];
+				for (var i = 0; i < obj.length; i++) {
+					if (obj[i].className == name) {
+						arry.push(obj[i]);
+					}
+				}
+				return arry;
+			}
+			window.onload = function() {
+				var oBigbox = document.getElementById("bigbox");
+				var aDiv = oBigbox.getElementsByTagName("div");
+				var oContent = getClass(aDiv, "content")[0];
+				var oText = oBigbox.getElementsByTagName("textarea")[0];
+				var oSend = oBigbox.getElementsByTagName("input")[0];
+				var oA = oBigbox.getElementsByTagName("a")[0];
+				var oUl = oBigbox.getElementsByTagName("ul")[0];
+				var arrColor = ["darkorange", "yellow", "pink", "red"];
+				var aLi = oUl.getElementsByTagName("li");
+				var oH2 = oBigbox.getElementsByTagName("h2")[0];
+				//下拉菜单功能实现
+				oA.onclick = function() {
+						if (oUl.style.display == "") {
+							oUl.style.display = "block";
+							oA.className = "active";
+						} else {
+							oUl.style.display = "";
+							oA.className = "";
+						}
+					}
+					//字体点击方法；
+				var that = "";
+				for (var i = 0; i < aLi.length; i++) {
+					aLi[i].index = i;
+					aLi[i].onclick = function() {
+						that = this;
+						oH2.innerHTML = this.innerHTML;
+						oUl.style.display = "";
+					}
+				}
+				oSend.onclick = function() {
+					if (oText.value == "") {
+						alert("请您输入内容");
+						return;
+					}
+					var arr = oText.value.split('');
+					for (var i = 0; i < arr.length; i++) {
+						if (arr[i] == false) { //如果数组中存在空字符串就pass；
+						} else {
+							if (oH2.innerHTML == "请选择字体") {
+								oContent.innerHTML += '<span>' + arr[i] + '</span>';
+								oText.value = "";
+							} else {
+								var aSpan = aLi[that.index].getElementsByTagName("span");
+								oContent.innerHTML += '<span class=' + aSpan[i % aSpan.length].className + '>' + arr[i] + '</span>';
+								oText.value = "";
+							}
+						}
+					}
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="bigbox">
+			<div class="content">
+
+			</div>
+			<div class="choose">
+				<h2>请选择字体</h2>
+				<a href="javascript:;"></a>
+				<ul>
+					<li><span class="bubble1">泡</span><span class="bubble2">泡</span><span class="bubble3">字</span><span class="bubble4">体</span></li>
+					<li><span class="square1">方</span><span class="square2">方</span><span class="square3">字</span><span class="square4">体</span></li>
+					<li><span>默</span><span>认</span><span>字</span><span>体</span></li>
+
+				</ul>
+			</div>
+			<div>
+				<textarea class="text"></textarea>
+			</div>
+			<input type="button" value="发送" style="width:60px;cursor: pointer;" />
+		</div>
+
+	</body>
+
+</html>

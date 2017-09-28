@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>按钮控制商品图片上下滚动</title>
+	
+	<style>
+		* { margin: 0; padding: 0; }
+		section {
+			width: 275px; 
+			
+			margin: 10px auto; 
+			border: 1px solid #ced6d6; 
+			border-top-left-radius: 10px; 
+			border-top-right-radius: 10px; 
+		}
+		section>div:first-child {
+			height: 30px; 
+			line-height: 30px; 
+			background: #294a73; 
+			color: #fff; 
+			border: 1px solid transparent;
+			border-top-left-radius: 10px; 
+			border-top-right-radius: 10px; 
+		}
+		section div p { float: left; margin-left: 10px;}
+		section div span { float: right; margin-right: 10px; cursor: pointer;}
+		section img { display: block; margin: 0 auto; cursor: pointer;}
+		section .up,section .down { padding: 7px 0; background: #e7e7e7;}
+		section .up:hover,section .down:hover { background: #e7efef; }
+		section div:nth-child(3) { height: 520px; overflow: hidden; }
+		section div:nth-child(3) img { border-bottom: 5px solid #c8c8cf;}
+		
+	</style>
+	<script>
+	window.onload=function(){
+		var oSad = document.getElementById('sad');
+		var oUp = oSad.getElementsByTagName('div')[1];
+		var oDown = oSad.getElementsByTagName('div')[4];
+		var oMian = oSad.getElementsByTagName('div')[2];
+		var oImg = oSad.getElementsByTagName('div')[3];
+		var timer = null;
+		var num = 0;
+		//getStyle兼容IE和标准浏览器
+		function getStyle(obj,attr){
+			return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj)[attr];
+		}
+		//按住oUp向上移动
+		oUp.onmousedown=function(){
+			clearInterval(timer);
+			
+			timer=setInterval(function(){
+				if(num < parseInt(getStyle(oImg,'height'))-parseInt(getStyle(oMian,'height'))){
+					num++;
+					oImg.style.marginTop = -num + 'px';
+				}
+			},5)
+		}
+		//松开oUp，停止向上移动
+		oUp.onmouseup=function(){
+			clearInterval(timer);
+		}
+		//按住oDown向下移动
+		oDown.onmousedown=function(){
+			clearInterval(timer);
+			timer=setInterval(function(){
+				num--;
+				oImg.style.marginTop = num>0? -num + 'px': num=0;
+			},5)
+		}
+		//松开oDown，停止向下移动
+		oDown.onmouseup=function(){
+			clearInterval(timer);
+		}
+	}
+		
+	
+	</script>
+</head>
+<body>
+	<section id="sad">
+		<div>
+			<p>聚划算</p>
+			<span>>>更多</span>
+		</div>
+		<div  class="up">
+			<img src="img/11.png">
+		</div>
+		<div>
+			<div>
+				<img src="img/1.jpg">
+				<img src="img/2.jpg">
+				<img src="img/3.jpg">
+				<img src="img/4.jpg">
+				<img src="img/5.jpg">
+				<img src="img/6.jpg">
+				<img src="img/7.jpg">
+				<img src="img/8.jpg">
+			</div>
+		</div>
+		<div class="down">
+			<img src="img/12.png">
+		</div>
+	</section>
+</body>
+</html>
